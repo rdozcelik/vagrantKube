@@ -350,7 +350,7 @@ instance.setCrumbIssuer(null)
 # Screenshots
 
 
-![image-vagrant-status](https://drive.google.com/uc?export=view&id=11oz9IuuOj7BD_FEdmnYNm0dSqA606thk)
+![image-vagrant-status](https://drive.google.com/uc?export=view&id=1wvHxrSghfBJJVXKBMOXk7xPfS3lm4neu)
 
 ![image-kubernetes-status](https://drive.google.com/uc?export=view&id=1s2yWCQGi1K9ptaIOHnt_zIncunkXlCQ-)
 
