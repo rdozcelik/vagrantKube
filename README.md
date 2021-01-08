@@ -143,9 +143,9 @@ nfs.disable: on
 
 6. Administration -> Repositories -> Create Repository: docker (hosted) -> docker-hubby
 
-![image-20210108112920815](How-to%20DObase.assets/image-20210108112920815.png)
+![image-nexus-blob](https://drive.google.com/uc?export=view&id=1rgxV1XIH1uFKKGtXTuI1HYMemerRikZM)
 
-![image-20210108113118764](How-to%20DObase.assets/image-20210108113118764.png)
+![image-nexus-registry](https://drive.google.com/uc?export=view&id=1NXAN0fXqqhRflEcgfl7XrkT7zO48u3ok)
 
 7. Administration -> Security Realms -> Activate "Docker Bearer Token Realm"
 
@@ -349,4 +349,19 @@ instance.setCrumbIssuer(null)
 
 # Screenshots
 
-#TODO
+
+![image-vagrant-status](https://drive.google.com/uc?export=view&id=11oz9IuuOj7BD_FEdmnYNm0dSqA606thk)
+
+![image-kubernetes-status](https://drive.google.com/uc?export=view&id=1s2yWCQGi1K9ptaIOHnt_zIncunkXlCQ-)
+
+![image-jenkins-getting-started](https://drive.google.com/uc?export=view&id=11iPeeACxcEmeNHeWUYHi6A4UMTx1vNJt)
+
+![image-jenkins-log](https://drive.google.com/uc?export=view&id=1PK83SzoSYjOKNDUCtQx-xvnyt0r8qTN_)
+
+![image-nexus-welcome](https://drive.google.com/uc?export=view&id=1rRfvkt-O7b2tMe-STZgg5pT7ozTUEJ0r)
+
+![image-nexus-blob](https://drive.google.com/uc?export=view&id=1rgxV1XIH1uFKKGtXTuI1HYMemerRikZM)
+
+![image-nexus-registry](https://drive.google.com/uc?export=view&id=1NXAN0fXqqhRflEcgfl7XrkT7zO48u3ok)
+
+
