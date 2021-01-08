@@ -1,0 +1,84 @@
+- name: Kubernetes Master Config
+  hosts: master
+  gather_facts: yes
+
+  tasks:
+    - name: Add Helm v3 Key
+      apt_key:
+        url: https://baltocdn.com/helm/signing.asc
+        state: present
+      become: yes
+      become_method: sudo
+
+    - name: Adding apt repository Helm v3
+      apt_repository:
+        repo: deb https://baltocdn.com/helm/stable/debian/ all main
+        state: present
+        filename: helm-stable-debian.list
+      become: yes
+      become_method: sudo
+
+    - name: Install Helm v3 Debian Package
+      apt:
+        name: helm
+        state: present
+        update_cache: yes
+      become: yes
+      become_method: sudo
+
+    - name: Add gluster peers
+      command: "{{ item }}"
+      with_items:
+        - gluster peer probe 192.168.10.11
+        - gluster peer probe 192.168.10.12
+      become: yes
+      become_method: sudo
+
+    - name: Create GlusterFS Volumes & Start
+      command: "{{ item }}"
+      with_items:
+        - gluster volume create jenkinsVol 192.168.10.10:/data/jenkinsVol 192.168.10.11:/data/jenkinsVol 192.168.10.12:/data/jenkinsVol force
+        - gluster volume create nexusVol 192.168.10.10:/data/nexusVol 192.168.10.11:/data/nexusVol 192.168.10.12:/data/nexusVol force
+        - gluster volume start jenkinsVol
+        - gluster volume start nexusVol
+      become: yes
+      become_method: sudo
+
+    - name: Create jenkins namespace
+      command: kubectl create namespace jenkins
+
+    - name: Create k8s GlusterFS endpoints
+      command: kubectl create -f /vagrant/k8s/glusterfs-endpoints.yaml -n jenkins
+
+    - name: Create k8s GlusterFS service
+      command: kubectl create -f /vagrant/k8s/glusterfs-service.yaml -n jenkins
+
+    - name: Create Persistent Volume jenkins-pv
+      command: kubectl create -f /vagrant/k8s/jenkins-volume.yaml -n jenkins
+
+    - name: Create Persistent Volume Claim jenkins-volume-claim
+      command: kubectl create -f /vagrant/k8s/jenkins-volume-claim.yaml -n jenkins
+
+    - name: Create Persistent Volume nexus-pv
+      command: kubectl create -f /vagrant/k8s/nexus-volume.yaml -n jenkins
+
+    - name: Create Persistent Volume Claim nexus-volume-claim
+      command: kubectl create -f /vagrant/k8s/nexus-volume-claim.yaml -n jenkins
+
+    - name: Create Jenkins Service Account
+      command: kubectl apply -f /vagrant/k8s/jenkins-service-account.yaml -n jenkins
+
+    - name: Create Jenkins Deployment
+      command: kubectl create -f /vagrant/k8s/jenkins-deployment.yaml -n jenkins
+
+    - name: Create Jenkins Service
+      command: kubectl create -f /vagrant/k8s/jenkins-service.yaml -n jenkins
+
+    - name: Create Nexus Deployment
+      command: kubectl create -f /vagrant/k8s/nexus-deployment.yaml -n jenkins
+
+    - name: Create Nexus Service
+      command: kubectl create -f /vagrant/k8s/nexus-service.yaml -n jenkins
+
+    - name: Create Nexus Container Registry Service
+      command: kubectl create -f /vagrant/k8s/nexus-registry-service.yaml -n jenkins

@@ -1,0 +1,57 @@
+- name: GlusterFS Cluster Install
+  hosts: all
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Add GlusterFS Repo Key
+      apt_key:
+        url: https://download.gluster.org/pub/gluster/glusterfs/7/rsa.pub
+        state: present
+
+    - name: Add GlusterFS PPA Repository
+      apt_repository:
+        repo: ppa:gluster/glusterfs-7
+        state: present
+        update_cache: yes
+
+    - name: install glusterfs
+      apt:
+        name: glusterfs-server
+        state: latest
+      notify: glusterd status
+
+    - name: Create jenkinsVol dir
+      file:
+        path: /data/jenkinsVol
+        state: directory
+        recurse: yes
+        mode: '0755'
+        owner: '1000'
+        group: '1000'
+
+    - name: Create nexusVol dir
+      file:
+        path: /data/nexusVol
+        state: directory
+        recurse: yes
+        mode: '0755'
+        owner: '200'
+        group: '200'
+
+    - name: Add Insecure Nexus Registry to Docker
+      copy:
+        dest: "/etc/docker/daemon.json"
+        content: |
+          {
+            "insecure-registries": ["192.168.10.10:32032"]
+          }
+      notify: docker restarted
+
+  handlers:
+    - name: glusterd status
+      service: name=glusterd state=started enabled=yes
+
+    - name: docker restarted
+      service: name=docker state=restarted

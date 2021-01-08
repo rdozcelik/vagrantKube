@@ -1,0 +1,6 @@
+master    ansible_connection=local
+worker1   ansible_host=192.168.10.11 ansible_ssh_private_key_file=/home/vagrant/.ssh/id_rsa
+worker2   ansible_host=192.168.10.12 ansible_ssh_private_key_file=/home/vagrant/.ssh/id_rsa
+
+[workers]
+worker[1:2]

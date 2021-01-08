@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus-registry
+spec:
+  type: NodePort
+  ports:
+    - port: 32032
+      targetPort: 32032
+      nodePort: 32032
+  selector:
+    app: nexus-server
